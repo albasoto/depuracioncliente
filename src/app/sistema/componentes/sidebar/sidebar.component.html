@@ -1,0 +1,98 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+    <div class="list-group">
+        <a routerLink="/inicio" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+            <span>Inicio</span>
+        </a>
+
+
+        <div class="nested-menu">
+            <a [routerLinkActive]="['router-link-active']" class="list-group-item" (click)="addExpandClass('pages')">
+                <i class="fa fa-cog"></i>&nbsp;
+                <span>Configuración</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a routerLink="/catalogo" [routerLinkActive]="['router-link-active']" class="list-group-item">
+
+                            <span>Catálogos </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/expresion" [routerLinkActive]="['router-link-active']" class="list-group-item">
+
+                            <span>Expresiones</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a routerLink="/entidad" [routerLinkActive]="['router-link-active']" class="list-group-item">
+
+                            <span>Entidades</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a routerLink="/version" [routerLinkActive]="['router-link-active']" class="list-group-item">
+
+                            <span>Versión</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        </div>
+
+        <a routerLink="/depuracion/nuevo" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+            <span>Nueva depuración</span>
+        </a>
+
+
+        <div class="header-fields">
+            <a (click)="rltAndLtr()" class="list-group-item">
+                <span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
+            </a>
+            <div class="nested-menu">
+                <a class="list-group-item" (click)="addExpandClass('languages')">
+                    <span><i class="fa fa-language"></i>&nbsp; Idioma <b class="caret"></b></span>
+                </a>
+                <li class="nested" [class.expand]="showMenu === 'languages'">
+                    <ul class="submenu">
+                        <li>
+                            <a href="javascript:void(0)" (click)="changeLang('en')">
+                                Inglés
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            </div>
+            <div class="nested-menu">
+                <a class="list-group-item" (click)="addExpandClass('profile')">
+                    <span><i class="fa fa-user"></i>&nbsp; John Smith</span>
+                </a>
+                <li class="nested" [class.expand]="showMenu === 'profile'">
+                    <ul class="submenu">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <span><i class="fa fa-fw fa-user"></i> Perfil</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a [routerLink]="['/login']" (click)="onLoggedout()">
+                                <span><i class="fa fa-fw fa-power-off"></i> Cerrar sesión</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+    </div>
+    <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+        <i class="fa fa-fw fa-angle-double-left"></i>&nbsp;
+        <span></span>
+    </div>
+</nav>

@@ -1,0 +1,33 @@
+<select [(ngModel)]="versionSeleccionada.id" (change)="verVersion($event)">
+  <option value="">Seleccionar una versión</option>
+  <option *ngFor="let version of versiones" value="{{version.id}}">{{version.nombre}}</option>
+</select>
+
+<button *ngIf="configuraciones.length>0" class="btn btn-success" (click)="generarPlantilla()">Generar plantilla</button>
+
+<input type="file"  (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+<br><br><br>
+
+
+<ngb-tabset *ngIf="pestanias.length>0">
+    <ngb-tab *ngFor="let pestania of pestanias" title="{{pestania.nombre}}">
+      <ng-template ngbTabContent>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th *ngFor="let columnas of pestania.columnas" style="width: 25%">{{columnas.nombre}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let value of pestania.values" class="table-danger">
+              <td *ngFor="let columna of pestania.columnas" >{{value[columna.nombre]}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+     
+      </ng-template>
+    </ngb-tab>
+ 
+  </ngb-tabset>

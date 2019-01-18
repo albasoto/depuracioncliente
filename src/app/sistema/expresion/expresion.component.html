@@ -1,0 +1,134 @@
+<div>
+    <div class="row">
+        <div class="col-xl-12">
+
+            <div class="d-flex justify-content-end">
+                <div class="mr-auto p-2">
+                    <h2 class="page-header">
+                        Expresiones
+                    </h2>
+
+
+
+                </div>
+                <div class="p-1">
+                    <button title="Nuevo" (click)="open(content)" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end">
+                        <div class="p-1">
+                            <div class="btn-group">
+                                <select class="form-control" [(ngModel)]="sort" (change)="obtenerExpresiones()">
+                                    <option value="nombre ASC">Ascendente</option>
+                                    <option value="nombre DESC">Descendente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-1">
+                            <div class="btn-group">
+                                <select class="form-control" [(ngModel)]="limite" (change)="obtenerExpresiones()">
+                                    <option value="5">5 elementos</option>
+                                    <option value="10">10 elementos</option>
+                                    <option value="20">20 elementos</option>
+                                    <option value="40">40 elementos</option>
+                                    <option value="todos">Todos</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="p-1">
+                            <div class="btn-group">
+                                <input type="text" class="form-control" [(ngModel)]="filtroBusqueda" (input)="obtenerExpresiones()"
+                                    placeholder="Buscar...">
+                                <button class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Valor</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let expresion of expresiones; let i = index">
+                            <th scope="row">
+                                <ng-container *ngIf="limite=='todos'">
+                                    {{i+1}}
+                                </ng-container>
+
+                                <ng-container *ngIf="limite!='todos'">
+                                    {{(pagina*limite)- (limite-1) + i}}
+                                </ng-container>
+
+                            </th>
+                            <td>
+                                {{expresion.nombre}}
+
+                            </td>
+
+                            <td>
+                                {{expresion.valor}}
+
+                            </td>
+
+                            <td>
+                               
+
+                                <button title="Editar" class="btn btn-sm btn-primary" (click)="open(content, expresion)"><i
+                                        class="fa fa-edit"></i></button>
+
+
+                                <button title="Eliminar" class="btn btn-sm btn-danger" (click)="eliminarExpresion(expresion)">
+                                    <i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <ngb-pagination class="d-flex justify-content-center" [(collectionSize)]="collectionSize" [(page)]="pagina"
+                    [(pageSize)]="limite" (pageChange)="obtenerExpresiones()"></ngb-pagination>
+                <p class="d-flex justify-content-center">Total expresiones: {{collectionSize}}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Expresión</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <app-dynamic-form [questions]="questions" (accion)="guardarExpresion($event)"></app-dynamic-form>
+
+    </div>
+
+</ng-template>

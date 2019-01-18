@@ -1,0 +1,186 @@
+<div>
+    <div class="row">
+        <div class="col-xl-12">
+
+            <div class="d-flex justify-content-end">
+                <div class="mr-auto p-2">
+                    <h2 class="page-header">
+                        Catálogos
+                    </h2>
+
+
+
+                </div>
+                <div class="p-1">
+                    <button title="Nuevo" (click)="open(content)" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end">
+                        <div class="p-1">
+                            <div class="btn-group">
+                                <select class="form-control" [(ngModel)]="sort" (change)="obtenerCatalogos()">
+                                    <option value="nombre ASC">Ascendente</option>
+                                    <option value="nombre DESC">Descendente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-1">
+                            <div class="btn-group">
+                                <select class="form-control" [(ngModel)]="limite" (change)="obtenerCatalogos()">
+                                    <option value="5">5 elementos</option>
+                                    <option value="10">10 elementos</option>
+                                    <option value="20">20 elementos</option>
+                                    <option value="40">40 elementos</option>
+                                    <option value="todos">Todos</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="p-1">
+                            <div class="btn-group">
+                                <input type="text" class="form-control" [(ngModel)]="filtroBusqueda" (input)="obtenerCatalogos()"
+                                    placeholder="Buscar...">
+                                <button class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let catalogo of catalogos; let i = index">
+                            <th scope="row">
+                                <ng-container *ngIf="limite=='todos'">
+                                    {{i+1}}
+                                </ng-container>
+
+                                <ng-container *ngIf="limite!='todos'">
+                                    {{(pagina*limite)- (limite-1) + i}}
+                                </ng-container>
+
+                            </th>
+                            <td>
+                                {{catalogo.nombre}}
+
+                            </td>
+
+                            <td>
+                                <button title="Ver" class="btn btn-sm btn-success" (click)="open2(content2, catalogo)"><i
+                                        class="fa fa-eye"></i></button>
+
+                                <button title="Editar" class="btn btn-sm btn-primary" (click)="open(content, catalogo)"><i
+                                        class="fa fa-edit"></i></button>
+
+
+                                <button title="Eliminar" class="btn btn-sm btn-danger" (click)="eliminarCatalogo(catalogo)">
+                                    <i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <ngb-pagination class="d-flex justify-content-center" [(collectionSize)]="collectionSize" [(page)]="pagina"
+                    [(pageSize)]="limite" (pageChange)="obtenerCatalogos()"></ngb-pagination>
+                <p class="d-flex justify-content-center">Total catálogos: {{collectionSize}}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<ng-template #content2 let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Catálogo: {{catalogo.nombre}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <button class="btn btn-primary btn-sm" (click)="nuevoElemento()">Nuevo elemento</button>
+        <app-dynamic-form *ngIf="questionsElemento.length>0"  [questions]="questionsElemento" (accion)="guardarElemento($event)"></app-dynamic-form>
+        <hr>
+
+        <h5>Elementos</h5>
+
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let elemento of catalogo.elementos; let i = index">
+                    <th scope="row">
+                        <ng-container *ngIf="limite=='todos'">
+                            {{i+1}}
+                        </ng-container>
+
+                        <ng-container *ngIf="limite!='todos'">
+                            {{(pagina*limite)- (limite-1) + i}}
+                        </ng-container>
+
+                    </th>
+                    <td>
+                        {{elemento.valor}}
+
+                    </td>
+
+                    <td>
+                    
+                        <button title="Editar" class="btn btn-sm btn-primary" (click)="editarElemento(elemento)"><i
+                                class="fa fa-edit"></i></button>
+
+
+                        <button title="Eliminar" class="btn btn-sm btn-danger" (click)="eliminarElemento(elemento)">
+                            <i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+</ng-template>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Catálogo</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <app-dynamic-form [questions]="questions" (accion)="guardarCatalogo($event)"></app-dynamic-form>
+
+    </div>
+
+</ng-template>

@@ -1,0 +1,17 @@
+<div class="row">
+  
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form col-md-12">
+ 
+    <ng-container *ngFor="let question of questions" class="form-row">
+      <app-question [question]="question" [form]="form"></app-question>
+    </ng-container>
+
+    <hr>
+ 
+    <div class="form-row d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary " [disabled]="!form.valid">Guardar</button>
+    </div>
+  </form>
+ 
+
+</div>
